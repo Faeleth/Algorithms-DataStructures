@@ -1,0 +1,37 @@
+# C++ build artifacts
+build/
+bin/
+lib/
+
+# CMake build directory
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+CMakeTmp/
+Makefile
+cmake_install.cmake
+
+# Compiled object files
+*.o
+*.obj
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled executables
+*.exe
+
+# IDE specific files
+.vscode/
+.idea/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.xcodeproj
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+
+# Dependency directories
+dependencies/
