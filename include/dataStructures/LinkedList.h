@@ -1,6 +1,9 @@
 #ifndef LINKED_LIST_H_
 #define LINKED_LIST_H_
 
+//TODO: przeszukiwanie z przeskokiem
+//TODO: delete function w przypadkach kiedy dane sa wskaznikiem trzeba w takim razie zwolnic ta pamiec
+
 template<typename T>
 class LinkedList {
     using print_data = std::string(*)(const T&);
