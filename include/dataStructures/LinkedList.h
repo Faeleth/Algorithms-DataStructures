@@ -4,6 +4,7 @@
 template<typename T>
 class LinkedList {
     using print_data = std::string(*)(const T&);
+    using compare_data = bool(*)(const T&, const T&);
 
     struct Node {
         T data;
@@ -17,7 +18,8 @@ class LinkedList {
     int size;
 
     bool pop();
-    static std::string def_to_cout_func(const T & rhs) { return std::to_string(rhs); }
+    static std::string default_print(const T & rhs) { return std::to_string(rhs); }
+    static bool default_compare(const T & lhs, const T & rhs) { return lhs == rhs; }
 
     public:
         LinkedList();
@@ -28,10 +30,11 @@ class LinkedList {
         void pop_front();
         void insert(int index, const T& _data);
         void erase(int index);
+        void find_and_delete(const T& _data, compare_data func = default_compare);
         T& operator[](int index);
         int getSize() { return size; };
         void clear();
-        std::string to_string(print_data func = def_to_cout_func) const;
+        std::string to_string(print_data func = default_print) const;
 };
 
 template<typename T> 
@@ -156,6 +159,25 @@ void LinkedList<T>::erase(int index){
 }
 
 template<typename T>
+void LinkedList<T>::find_and_delete(const T& _data, compare_data func){
+    Node* voyager = head;
+    while(voyager){
+        if(func(voyager->data, _data)){
+            if(voyager == head) { pop_front(); return; }
+            if(voyager == tail) { pop_back(); return; }
+
+            voyager->prev->next = voyager->next;
+            voyager->next->prev = voyager->prev;
+            delete voyager;
+
+            size--;
+            return;
+        }
+        voyager = voyager->next;
+    }
+}
+
+template<typename T>
 T& LinkedList<T>::operator[](int index){
     if(index < 0 || index >= size) { throw std::out_of_range("Index out of range"); }
 
@@ -184,7 +206,7 @@ std::string LinkedList<T>::to_string(print_data func) const {
     std::string result;
     Node* voyager = head;
     while(voyager){
-        result += std::to_string(voyager->data) + " ";
+        result += func(voyager->data) + " ";
         voyager = voyager->next;
     }
     return result;
