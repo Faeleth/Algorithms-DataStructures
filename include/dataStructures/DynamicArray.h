@@ -2,6 +2,7 @@ template<typename T>
 class DynamicArray {
     using print_data = std::string(*)(const T &);
     using delete_data = void (T & _item);
+    using compare_data = bool(*)(const T &, const T &);
 
     int size;
     int capacity;
@@ -9,6 +10,7 @@ class DynamicArray {
     int GROW_RATIO;
 
     static std::string default_print(const T & rhs) { return std::to_string(rhs); }
+    static bool default_compare(const T & lhs, const T & rhs) { return lhs > rhs; }
 
     public:
         explicit DynamicArray(int initialCapacity);
@@ -16,7 +18,7 @@ class DynamicArray {
         void push(const T& item);
         T pop(delete_data func = nullptr);
         void clear(delete_data func = nullptr);
-        void sort();
+        void sort(compare_data func = default_compare);
         std::to_string(print_data func = default_print) const;
         int getSize() { return size; };
         T& operator[](int index);
@@ -44,7 +46,7 @@ void DynamicArray<T>::push(const T& item){
 
 template<typename T>
 T DynamicArray<T>::pop(delete_data func){
-    if(size == 0) throw std::out_of_range("Array is empty");
+    if(size == 0) throw std::out_of_range("Index out of range");
     T retItem = items[size - 1];
     if ( func != nullptr)
         func(items[size - 1])
@@ -60,4 +62,10 @@ void DynamicArray<T>::clear(delete_data func){
         }
     }
     size = 0;
+}
+
+template<typename T>
+T& DynamicArray<T>::operator[](int index){
+    if( index < 0 || index <= size) throw std::out_of_range("Index out of range")
+    return items[index];
 }
