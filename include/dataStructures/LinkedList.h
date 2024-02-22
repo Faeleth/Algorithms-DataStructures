@@ -1,9 +1,4 @@
-#ifndef LINKED_LIST_H_
-#define LINKED_LIST_H_
-
-//TODO: przeszukiwanie z przeskokiem
-//TODO: delete function w przypadkach kiedy dane sa wskaznikiem trzeba w takim razie zwolnic ta pamiec
-
+#pragma once
 template<typename T>
 class LinkedList {
     using print_data = std::string(*)(const T&);
@@ -20,10 +15,11 @@ class LinkedList {
     Node* tail;
     int size;
 
-    bool pop();
     static std::string default_print(const T & rhs) { return std::to_string(rhs); }
     static bool default_compare(const T & lhs, const T & rhs) { return lhs == rhs; }
 
+    bool pop();
+    
     public:
         LinkedList();
         ~LinkedList();
@@ -214,5 +210,3 @@ std::string LinkedList<T>::to_string(print_data func) const {
     }
     return result;
 }
-
-#endif // LINKED_LIST_H_
