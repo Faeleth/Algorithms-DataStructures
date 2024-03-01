@@ -35,3 +35,5 @@ cmake_install.cmake
 
 # Dependency directories
 dependencies/
+
+__tests__/*
